@@ -1,2 +1,7 @@
 Flask
 gunicorn
+six
+pyOpenSSL
+enum34
+python-dateutil
+autobahn[twisted]
