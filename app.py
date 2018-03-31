@@ -1,19 +1,3 @@
-###############################################################################
-#
-# The MIT License (MIT)
-#
-# Copyright (c) Zerodha technologies Pvt. Ltd.
-#
-# This is simple Flask based webapp to generate access token and get basic
-# account info like holdings and order.
-#
-# To run this you need Kite Connect python client and Flask webserver
-#
-#   pip install Flask
-#   pip install kiteconnect
-#
-#   python examples/simple_webapp.py
-###############################################################################
 import os
 import json
 import logging
@@ -24,9 +8,6 @@ from flask import Flask, request, jsonify, session
 from kiteconnect import KiteConnect
 
 logging.basicConfig(level=logging.DEBUG)
-
-# Base settings
-
 
 serializer = lambda obj: isinstance(obj, (date, datetime, Decimal)) and str(obj)  # noqa
 
@@ -47,22 +28,6 @@ console_url = "https://developers.kite.trade/apps/{api_key}".format(api_key=kite
 # App
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-
-# Templates
-index_template = """
-    <div>Make sure your app with api_key - <b>{api_key}</b> has set redirect to <b>{redirect_url}</b>.</div>
-    <div>If not you can set it from your <a href="{console_url}">Kite Connect developer console here</a>.</div>
-    <a href="{login_url}"><h1>Login to generate access token.</h1></a>"""
-
-login_template = """
-    <h2 style="color: green">Success</h2>
-    <div>Access token: <b>{access_token}</b></div>
-    <h4>User login data</h4>
-    <pre>{user_data}</pre>
-    <a target="_blank" href="/holdings.json"><h4>Fetch user holdings</h4></a>
-    <a target="_blank" href="/orders.json"><h4>Fetch user orders</h4></a>
-	<a target="_blank" href="/positions.json"><h4>Fetch user positions</h4></a>
-    <a target="_blank" href="https://kite.trade/docs/connect/v1/"><h4>Checks Kite Connect docs for other calls.</h4></a>"""
 
 
 def get_kite_client():
@@ -127,7 +92,7 @@ def positions():
     return jsonify(positions=kite.positions())
 
 
-if __name__ == "__main__":
-    logging.info("Starting server: http://{host}:{port}".format(host=HOST, port=PORT))
- 
-  app.run(host='0.0.0.0', port=port, debug=True)
+
+
+if __name__ == '__main__':
+ app.run(debug=True, use_reloader=True)
